@@ -13,4 +13,159 @@ func main() {
 }
 
 
+package main
+
+import "fmt"
+
+type Hey string
+
+var mesaj Hey
+var sintagma *Hey=&mesaj
+
+func main() {
+	mesaj="Buna"
+	fmt.Println(mesaj,sintagma)
+}
+
+
+
+----------------------------------------
+package main
+
+import "fmt"
+
+type Salut struct {
+	nume string
+	mesaj string
+}
+
+var mesaj string
+var sintagma string
+
+func main() {
+	mesaj="Salut"
+	fmt.Println(mesaj,sintagma)
+	var s =Salut{"Alexandra","Hey"}
+	fmt.Println(s)
+
+}
+---------------------------------------------------
+
+package main
+
+import "fmt"
+
+func alfabet(){
+	for i:='a';i<='z';i++{
+		fmt.Printf(string(i))    // printF sa-l vad in linie
+	}
+}
+
+func main() {
+
+	alfabet()
+
+}
+
+--------------------------------------------------
+
+Facem din functie rutina - vreau sa mearga in pararel
+package main
+
+import (
+	"fmt"
+ "time"
+)
+func alfabet(){
+
+	for i:='a';i<='z';i++{
+		fmt.Printf(string(i))
+	}
+}
+
+func main() {
+
+	go alfabet()
+	time.Sleep(5*time.Second)
+
+
+}
+------------------------------------------------------------
+Vrem sa lucreze pararel
+
+package main
+
+import ("fmt"
+ "time"
+	"runtime"
+)
+func alfabet(){
+
+	for i:='a';i<='z';i++{
+		fmt.Printf(string(i))
+	}
+}
+
+func main() {
+
+	runtime.GOMAXPROCS(8)   // 8 procesoare
+	go alfabet() 
+	time.Sleep(5*time.Second)
+
+
+}
+
+--------------------------------------------------------------------
+
+
+Generarea alfabet , dar folosim si canal
+
+
+
+package main
+
+import ("fmt"
+	"runtime"
+	"time"
+)
+func alfabet(channel chan string) {
+
+	for i := 'a'; i <= 'z'; i++ {
+
+		channel <- string(i)
+
+	}
+	close(channel)
+}
+
+func Numerepare(numar int ) bool{
+
+	return numar%2==0
+}
+
+func Numereimpare (numar int) bool{
+	return !Numerepare(numar)
+}
+		func afisare(channel chan string){
+			for {
+				fmt.Printf(<-channel)
+	}
+	}
+
+func main() {
+
+	runtime.GOMAXPROCS(8)
+	channel:= make(chan string)
+	go alfabet(channel)
+	go afisare(channel)
+	time.Sleep(5*time.Second)
+
+	for j:=0;j<100;j++{
+		fmt.Println("Numar:",j,Numerepare(j))
+		}
+
+
+
+}
+
 
