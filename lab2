@@ -1,0 +1,13 @@
+package main
+
+import "fmt"
+
+type Hey string
+
+var mesaj Hey
+var sintagma *Hey=&mesaj
+
+func main() {
+	mesaj="Buna"
+	fmt.Println(mesaj,sintagma)
+}
